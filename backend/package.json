@@ -1,0 +1,37 @@
+{
+  "name": "taxsage-backend",
+  "version": "1.0.0",
+  "description": "Backend for the TaxSage AI tax filing application.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Kashvi Thakkar",
+  "license": "ISC",
+  "dependencies": {
+<<<<<<< HEAD
+    "@google-cloud/vision": "^5.3.4",
+    "axios": "^1.13.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "google-auth-library": "^10.4.2",
+=======
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+>>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "nodemailer": "^7.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
