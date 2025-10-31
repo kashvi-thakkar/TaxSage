@@ -1,12 +1,9 @@
 const User = require('../models/user.model.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-<<<<<<< HEAD
 const { OAuth2Client } = require('google-auth-library');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-=======
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
 
 // Generate a secure token
 const generateToken = (id) => {
@@ -124,7 +121,6 @@ const emailLogin = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
 // @desc    Google OAuth login/signup
 // @route   POST /api/auth/google
 const googleAuth = async (req, res) => {
@@ -176,7 +172,7 @@ const googleAuth = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = generateToken(user._id);
+    const jwtToken = generateToken(user._id);
 
     res.json({
       _id: user._id,
@@ -185,7 +181,7 @@ const googleAuth = async (req, res) => {
       email: user.email,
       pan: user.pan,
       avatar: user.avatar,
-      token: token,
+      token: jwtToken,
       isNewUser: !user.pan || user.pan.startsWith('GOOGL')
     });
 
@@ -200,7 +196,7 @@ const googleAuth = async (req, res) => {
 const updatePan = async (req, res) => {
   try {
     const { pan } = req.body;
-    const userId = req.userId;
+    const userId = req.userId; // This comes from your 'auth' middleware
 
     // Check if PAN is already taken
     const existingUser = await User.findOne({ 
@@ -245,6 +241,3 @@ module.exports = {
   googleAuth,
   updatePan
 };
-=======
-module.exports = { registerUser, loginUser, emailLogin };
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893

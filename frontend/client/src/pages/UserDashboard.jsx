@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext.jsx';
@@ -331,102 +330,10 @@ const UserDashboard = () => {
                     </button>
                   </div>
                 )}
-=======
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext.jsx';
-
-const UserDashboard = () => {
-  const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  const handleStartFiling = () => {
-    navigate('/tax-filing');
-  };
-
-  // Mock data for dashboard
-  const dashboardStats = {
-    pendingFilings: 1,
-    completedFilings: 0,
-    taxSaved: 15000,
-    currentYear: new Date().getFullYear()
-  };
-
-  return (
-    <div className="min-h-screen bg-background font-sans">
-      {/* Header - More Subtle */}
-      <header className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <img 
-                src={require('../assets/logo.png')} 
-                alt="TaxSage Logo" 
-                className="w-9 h-9" 
-              />
-              <div>
-                <h1 className="text-xl font-semibold text-gray-800 tracking-tight">TaxSage</h1>
-                <p className="text-sm text-gray-500 font-light">Welcome back, {user?.firstName}</p>
-              </div>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="text-gray-600 hover:text-gray-800 font-medium py-2 px-4 rounded-lg hover:bg-gray-50 transition-all duration-200 border border-gray-200"
-            >
-              Sign out
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto py-8 px-6">
-        {/* Welcome Section - More Refined */}
-        <div className="bg-white rounded-xl shadow-sm p-8 mb-8 border border-gray-100">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-            <div className="flex-1">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-3 tracking-tight">
-                Income Tax Filing {dashboardStats.currentYear}-{dashboardStats.currentYear + 1}
-              </h2>
-              <p className="text-gray-600 mb-6 font-light leading-relaxed">
-                Complete your tax return with our guided process. Get expert recommendations and ensure maximum savings.
-              </p>
-              <button
-                onClick={handleStartFiling}
-                className="bg-primary text-white font-medium py-3 px-6 rounded-lg hover:bg-opacity-90 transition-all duration-200 shadow-sm hover:shadow-md"
-              >
-                Start New Filing
-              </button>
-            </div>
-            <div className="bg-secondary bg-opacity-10 text-secondary p-5 rounded-lg border border-secondary border-opacity-20">
-              <p className="text-sm font-medium mb-1">Assessment Year</p>
-              <p className="text-lg font-semibold">{dashboardStats.currentYear}-{dashboardStats.currentYear + 1}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Grid - More Elegant */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center">
-              <div className="bg-primary bg-opacity-10 p-3 rounded-lg">
-                <span className="text-primary text-lg">📋</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-500 font-medium">Pending Filings</p>
-                <p className="text-xl font-semibold text-gray-800">{dashboardStats.pendingFilings}</p>
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
               </div>
             </div>
           </div>
 
-<<<<<<< HEAD
           {/* Sidebar */}
           <div className="space-y-6">
             <div className="bg-white rounded-xl shadow-sm p-6 border border-[#9ECFD4]">
@@ -476,64 +383,6 @@ const UserDashboard = () => {
               </div>
             </div>
           </div>
-=======
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center">
-              <div className="bg-accent bg-opacity-10 p-3 rounded-lg">
-                <span className="text-accent text-lg">✅</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-500 font-medium">Completed Filings</p>
-                <p className="text-xl font-semibold text-gray-800">{dashboardStats.completedFilings}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center">
-              <div className="bg-secondary bg-opacity-10 p-3 rounded-lg">
-                <span className="text-secondary text-lg">💰</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-500 font-medium">Tax Saved</p>
-                <p className="text-xl font-semibold text-gray-800">₹{dashboardStats.taxSaved.toLocaleString()}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Actions - More Subtle */}
-        <div className="bg-white rounded-xl shadow-sm p-7 border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-6">Quick Actions</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <button className="bg-background hover:bg-primary hover:text-white transition-all duration-200 p-5 rounded-lg text-center border border-gray-200 group">
-              <div className="text-lg mb-2 group-hover:scale-110 transition-transform">📊</div>
-              <p className="font-medium text-sm">Tax Calculator</p>
-            </button>
-            <button className="bg-background hover:bg-primary hover:text-white transition-all duration-200 p-5 rounded-lg text-center border border-gray-200 group">
-              <div className="text-lg mb-2 group-hover:scale-110 transition-transform">📁</div>
-              <p className="font-medium text-sm">Documents</p>
-            </button>
-            <button className="bg-background hover:bg-primary hover:text-white transition-all duration-200 p-5 rounded-lg text-center border border-gray-200 group">
-              <div className="text-lg mb-2 group-hover:scale-110 transition-transform">👨‍💼</div>
-              <p className="font-medium text-sm">Find CA</p>
-            </button>
-            <button className="bg-background hover:bg-primary hover:text-white transition-all duration-200 p-5 rounded-lg text-center border border-gray-200 group">
-              <div className="text-lg mb-2 group-hover:scale-110 transition-transform">❓</div>
-              <p className="font-medium text-sm">Help Guide</p>
-            </button>
-          </div>
-        </div>
-
-        {/* Recent Activity Section */}
-        <div className="bg-white rounded-xl shadow-sm p-7 border border-gray-100 mt-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-6">Recent Activity</h3>
-          <div className="text-center py-8">
-            <div className="text-gray-400 text-4xl mb-3">📄</div>
-            <p className="text-gray-500 font-light">No recent tax filings</p>
-            <p className="text-gray-400 text-sm mt-1">Start your first tax filing to see activity here</p>
-          </div>
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
         </div>
       </main>
     </div>

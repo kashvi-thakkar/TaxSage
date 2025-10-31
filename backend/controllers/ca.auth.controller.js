@@ -84,8 +84,4 @@ const loginCA = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
-// Make sure you're exporting the functions correctly
-=======
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
 module.exports = { registerCA, loginCA };

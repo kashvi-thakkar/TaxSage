@@ -10,7 +10,6 @@
   "author": "Kashvi Thakkar",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "@google-cloud/vision": "^5.3.4",
     "axios": "^1.13.1",
     "bcryptjs": "^2.4.3",
@@ -20,13 +19,6 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "google-auth-library": "^10.4.2",
-=======
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.0",
     "nodemailer": "^7.0.9"

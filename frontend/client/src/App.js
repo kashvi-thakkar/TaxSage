@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { GoogleOAuthProvider } from '@react-oauth/google'; // ADD THIS IMPORT
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { DataProvider } from './context/DataContext.jsx';
 
 // Import Pages
@@ -133,48 +132,6 @@ function App() {
         </Router>
       </DataProvider>
     </GoogleOAuthProvider>
-=======
-
-// Import Pages
-import LoginPage from './pages/LoginPage.jsx';
-import SignupPage from './pages/SignupPage.jsx';
-import UserDashboard from './pages/UserDashboard.jsx';
-import TaxFilingPage from './pages/TaxFilingPage.jsx'; // We'll create this next
-
-// Import the ProtectedRoute component
-import ProtectedRoute from './components/ProtectedRoute.jsx';
-
-function App() {
-  return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        
-        {/* Default route redirects to login */}
-        <Route path="/" element={<Navigate to="/login" />} />
-
-        {/* Protected Routes */}
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute>
-              <UserDashboard />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/tax-filing" 
-          element={
-            <ProtectedRoute>
-              <TaxFilingPage />
-            </ProtectedRoute>
-          } 
-        />
-      </Routes>
-    </Router>
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
   );
 }
 

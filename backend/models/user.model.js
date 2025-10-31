@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'CA'
     },
-<<<<<<< HEAD
+
     googleId: {
     type: String,
     unique: true,
@@ -66,8 +66,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-=======
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
+
     taxFilings: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'TaxFiling'
