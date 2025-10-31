@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react'; // 1. Import useEffect
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext.jsx';
@@ -11,13 +11,24 @@ const caAvatarUrl = require('../assets/ca-avatar.png');
 const LoginPage = () => {
   const [activeForm, setActiveForm] = useState('user');
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  // 2. Get the 'user' object from context
+  const { login, user } = useContext(AuthContext); 
 
   const [userData, setUserData] = useState({ email: '', password: '' });
   const [caData, setCaData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isEmailOnly, setIsEmailOnly] = useState(false);
+
+  // 3. ADD THIS ENTIRE useEffect BLOCK
+  // This hook will run whenever the 'user' object changes.
+  useEffect(() => {
+    // If the user object exists, it means we are logged in.
+    // Redirect to the dashboard.
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]); // Dependencies
 
   const handleUserChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -56,6 +67,8 @@ const LoginPage = () => {
         response = await axios.post('http://localhost:5001/api/auth/login', userData);
         
         if (response.data.token) {
+          // The login function will set the user state.
+          // The useEffect hook above will then handle the redirect.
           login(response.data.token, {
             id: response.data._id,
             firstName: response.data.firstName,
@@ -63,7 +76,8 @@ const LoginPage = () => {
             email: response.data.email,
             pan: response.data.pan
           });
-          navigate('/dashboard');
+          // We no longer need navigate('/dashboard') here, 
+          // because the useEffect will take care of it.
         }
       }
     } catch (err) {
@@ -93,7 +107,7 @@ const LoginPage = () => {
           email: response.data.email,
           icaiNumber: response.data.icaiNumber
         }));
-        navigate('/dashboard'); // This should probably be '/ca/dashboard'
+        navigate('/ca/dashboard'); // CA dashboard is separate
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
@@ -103,7 +117,8 @@ const LoginPage = () => {
   };
 
   const handleGoogleSuccess = (userData) => {
-    navigate('/dashboard');
+    // The login function is called inside GoogleLoginButton
+    // The useEffect will handle the redirect
   };
 
   const handleGoogleError = (error) => {
@@ -153,23 +168,27 @@ const LoginPage = () => {
           </div>
         )}
 
-        {/* Google Login Button */}
-        <div className="mt-2">
-          <GoogleLoginButton 
-            type="login"
-            onSuccess={handleGoogleSuccess}
-            onError={handleGoogleError}
-          />
-        </div>
+        {/* Google Login Button (Only for Users) */}
+        {activeForm === 'user' && (
+          <>
+            <div className="mt-2">
+              <GoogleLoginButton 
+                type="login"
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+              />
+            </div>
 
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">Or continue with email</span>
-          </div>
-        </div>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or continue with email</span>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* User Login Form */}
         <form onSubmit={handleUserLogin} className={`space-y-4 ${activeForm === 'user' ? 'block' : 'hidden'}`}>

@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-<<<<<<< HEAD
 // Load environment variables from .env file first
 dotenv.config();
 
@@ -24,43 +23,21 @@ if (missingEnvVars.length > 0) {
   process.exit(1);
 }
 
-=======
-// --- Import Route Files ---
-const authRoutes = require('./routes/auth.routes.js');
-const caAuthRoutes = require('./routes/ca.auth.routes.js');
-
-// Load environment variables from .env file
-dotenv.config();
-
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
 const app = express();
 
 // --- Enhanced CORS Configuration ---
 app.use(cors({
-<<<<<<< HEAD
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,
-=======
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Your frontend URL
-    credentials: true, // Allow cookies if needed
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Middleware
-<<<<<<< HEAD
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // --- Security Middleware ---
-=======
-app.use(express.json({ limit: '10mb' })); // Increase payload limit if needed
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-
-// --- Security Middleware ---
-// Add security headers
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
 app.use((req, res, next) => {
     res.header('X-Content-Type-Options', 'nosniff');
     res.header('X-Frame-Options', 'DENY');
@@ -68,7 +45,6 @@ app.use((req, res, next) => {
     next();
 });
 
-<<<<<<< HEAD
 // --- Import Route Files ---
 console.log('🔧 Loading routes...');
 
@@ -132,57 +108,22 @@ const connectDB = async () => {
         
         mongoose.connection.on('disconnected', () => {
             console.log('⚠️ MongoDB disconnected');
-=======
-// --- Database Connection with Enhanced Error Handling ---
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI, {
-            // Add connection options for better stability
-            // useNewUrlParser: true, // No longer needed in Mongoose 6+
-            // useUnifiedTopology: true, // No longer needed in Mongoose 6+
-            serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
-            socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-        });
-        
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-        
-        // Handle MongoDB connection events
-        mongoose.connection.on('error', (err) => {
-            console.error('MongoDB connection error:', err);
-        });
-        
-        mongoose.connection.on('disconnected', () => {
-            console.log('MongoDB disconnected');
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
         });
         
         // Graceful shutdown
         process.on('SIGINT', async () => {
             await mongoose.connection.close();
-<<<<<<< HEAD
             console.log('✅ MongoDB connection closed through app termination');
-=======
-            console.log('MongoDB connection closed through app termination');
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
             process.exit(0);
         });
         
     } catch (error) {
-<<<<<<< HEAD
         console.error(`❌ Error connecting to MongoDB: ${error.message}`);
         console.error('Please check your MONGO_URI in .env file');
-=======
-        console.error(`Error connecting to MongoDB: ${error.message}`);
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
         process.exit(1);
     }
 };
 
-<<<<<<< HEAD
-=======
-connectDB();
-
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
 // --- Request Logging Middleware ---
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
@@ -190,7 +131,6 @@ app.use((req, res, next) => {
 });
 
 // --- API Routes ---
-<<<<<<< HEAD
 console.log('🔧 Setting up API routes...');
 
 app.use('/api/auth', authRoutes); 
@@ -205,17 +145,11 @@ if (analyticsRoutes) app.use('/api/analytics', analyticsRoutes); // Added this l
 
 console.log('✅ All routes configured');
 
-=======
-app.use('/api/auth', authRoutes); 
-app.use('/api/ca/auth', caAuthRoutes);
-
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
 // --- Basic Route ---
 app.get('/', (req, res) => {
     res.json({ 
         message: 'TaxSage API is running...',
         timestamp: new Date().toISOString(),
-<<<<<<< HEAD
         version: '1.0.0',
         endpoints: [
             '/api/auth',
@@ -227,9 +161,6 @@ app.get('/', (req, res) => {
             '/api/analytics', // Added this
             '/health'
         ]
-=======
-        version: '1.0.0'
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
     });
 });
 
@@ -254,11 +185,7 @@ app.use('*', (req, res) => {
 
 // --- Global Error Handling Middleware ---
 app.use((err, req, res, next) => {
-<<<<<<< HEAD
     console.error('❌ Unhandled Error:', err);
-=======
-    console.error('Unhandled Error:', err);
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
     
     // Mongoose validation error
     if (err.name === 'ValidationError') {
@@ -303,33 +230,20 @@ app.use((err, req, res, next) => {
 
 // --- Handle Unhandled Promise Rejections ---
 process.on('unhandledRejection', (err, promise) => {
-<<<<<<< HEAD
     console.log('❌ Unhandled Promise Rejection:', err);
     // Close server & exit process
     process.exit(1);
-=======
-    console.log('Unhandled Promise Rejection:', err);
-    // Close server & exit process
-    server.close(() => {
-        process.exit(1);
-    });
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
 });
 
 // --- Handle Uncaught Exceptions ---
 process.on('uncaughtException', (err) => {
-<<<<<<< HEAD
     console.log('❌ Uncaught Exception:', err);
-=======
-    console.log('Uncaught Exception:', err);
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
     process.exit(1);
 });
 
 // --- Server Listener ---
 const PORT = process.env.PORT || 5001;
 
-<<<<<<< HEAD
 const startServer = async () => {
     await connectDB();
     
@@ -353,20 +267,3 @@ const startServer = async () => {
 startServer();
 
 module.exports = app;
-=======
-const server = app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-    console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`📊 Health check: http://localhost:${PORT}/health`);
-});
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-    console.log('SIGTERM received, shutting down gracefully');
-    server.close(() => {
-        console.log('Process terminated');
-    });
-});
-
-module.exports = app; // For testing purposes
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext.jsx';
 import { useData } from '../context/DataContext.jsx';
-import { taxAPI } from '../services/apiService.jsx'; 
+import { taxAPI } from '../services/apiService.js'; 
 
 const UserDashboard = () => {
   const { user, logout } = useContext(AuthContext);

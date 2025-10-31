@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext.jsx';
 import axios from 'axios'; // Import axios for Cloudinary upload
-import { documentAPI, taxAPI } from '../services/apiService.jsx'; // Import your APIs
+import { documentAPI, taxAPI } from '../services/apiService.js'; // Import your APIs
 import { useData } from '../context/DataContext.jsx'; // Import useData
 
 const TaxFilingPage = () => {

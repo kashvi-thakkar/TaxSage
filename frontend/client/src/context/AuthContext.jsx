@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { createContext, useState, useEffect, useContext } from 'react'; // Add useContext
 import { jwtDecode } from 'jwt-decode';
 import { authAPI, checkAuth } from '../services/apiService';
@@ -42,43 +41,11 @@ export const AuthProvider = ({ children }) => {
             } catch (error) {
                 console.error("Invalid token:", error);
                 logout();
-=======
-import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
-
-const AuthContext = createContext();
-
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                const decodedToken = jwtDecode(token);
-                // Fix: Check the actual token structure from your backend
-                if (decodedToken && decodedToken.id) {
-                    setUser({ 
-                        id: decodedToken.id,
-                        // Add other user data from localStorage if available
-                        ...JSON.parse(localStorage.getItem('user') || '{}')
-                    });
-                } else {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                }
-            } catch (error) {
-                console.error("Invalid token found:", error);
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
             }
         }
         setLoading(false);
     }, []);
 
-<<<<<<< HEAD
     const login = async (token, userData = null) => {
         localStorage.setItem('token', token);
         
@@ -86,10 +53,13 @@ export const AuthProvider = ({ children }) => {
             const decodedToken = jwtDecode(token);
             let userInfo = userData;
             
-            // If userData not provided, fetch from backend
+            // If userData not provided, use decoded token
             if (!userData) {
-                // You might want to add an API to get user profile
-                userInfo = { id: decodedToken.id };
+                userInfo = { 
+                    id: decodedToken.id,
+                    // You should fetch the full user profile here
+                    // This is a fallback
+                };
             }
             
             setUser(userInfo);
@@ -106,35 +76,25 @@ export const AuthProvider = ({ children }) => {
             const timeout = (decodedToken.exp - (Date.now() / 1000)) * 1000;
             setSessionTimeout(setTimeout(() => {
                 logout();
-            }, timeout - 60000));
+            }, timeout - 60000)); // Logout 1 min before expiry
 
-=======
-    const login = (token, userData = null) => {
-        localStorage.setItem('token', token);
-        try {
-            const decodedToken = jwtDecode(token);
-            const userInfo = userData || { id: decodedToken.id };
-            setUser(userInfo);
-            
-            // Also store user data in localStorage for persistence
-            if (userData) {
-                localStorage.setItem('user', JSON.stringify(userData));
-            }
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
         } catch (error) {
             console.error("Invalid token during login:", error);
         }
     };
 
-<<<<<<< HEAD
     const register = async (userData, isCA = false) => {
         try {
             const response = isCA 
                 ? await authAPI.registerCA(userData)
                 : await authAPI.registerUser(userData);
             
-            if (response.data.token) {
+            if (response.data.token && !isCA) {
+                // Only auto-login for regular users
                 await login(response.data.token, response.data);
+                return { success: true, data: response.data };
+            } else if (isCA) {
+                // For CAs, just return success
                 return { success: true, data: response.data };
             }
         } catch (error) {
@@ -177,6 +137,7 @@ export const AuthProvider = ({ children }) => {
             if (response.data.token) {
                 localStorage.setItem('ca_token', response.data.token);
                 localStorage.setItem('ca_user', JSON.stringify(response.data));
+                // We don't call login() for CAs, as it's a separate auth context
                 return { success: true, data: response.data };
             }
         } catch (error) {
@@ -202,14 +163,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-=======
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('ca_token');
         localStorage.removeItem('ca_user');
-<<<<<<< HEAD
         
         if (sessionTimeout) {
             clearTimeout(sessionTimeout);
@@ -232,13 +190,6 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-=======
-        setUser(null);
-    };
-
-    return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
->>>>>>> 5260d96fe97afffbc6bbfe8f645c3fd745f1d893
             {children}
         </AuthContext.Provider>
     );
